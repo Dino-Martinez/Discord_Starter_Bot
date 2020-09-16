@@ -37,18 +37,18 @@ class ProfanityFilter {
          */
 
 		const tree = this._profanityTree;
-        const words = message.content.toLowerCase().split(' ');
+        const words = message.toLowerCase().split(' ');
         
         // If the entire message is < 3 characters total, it is not a bad word
-        if(message.content.length < 3) {
+        if(message.length < 3) {
             return false;
         }
         
         // If the message is exactly 3 characters, run simple check against
         // profanity config file
-        if(message.content.length === 3) {
+        if(message.length === 3) {
             const profanityText = fs.readFileSync('configuration/profanity.txt').toString();
-            if(profanityText.includes(message.content)) {
+            if(profanityText.includes(message)) {
                 // Bad word found
                 return true;
             }
