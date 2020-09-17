@@ -174,19 +174,21 @@ client.on('message', (message) => {
   }
 
   // Check if user has perms for command
-  // Default is no permission
-  let hasPermission = false;
+  // Default is permission, revoke permission only if our map says to
+  let hasPermission = true;
 
   // Check for the command in our permissions map. If the command is not
   // in our map, then permission is given. If the command is in our map,
   // then check all user roles for permission
   message.member.roles.cache.forEach((role) => {
-    if (!permissionMap[command.name] || permissionMap[command.name][role.name.toLowerCase()]);
-    hasPermission = true;
+    if (permissionMap[command.name][role.name.toLowerCase()] === false) {
+      hasPermission = false;
+    }
   });
 
   if (!hasPermission) {
     message.reply('You do not have permission for that command!');
+    return;
   }
 
   try {
