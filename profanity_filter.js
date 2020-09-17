@@ -8,10 +8,10 @@ class ProfanityFilter {
      * considered profanity
      */
 
-    constructor(profanity_file) {
+    constructor(profanityFile) {
         // Construct profanity tree from the provided filename
         var profanityTree = new VariableTree.nTree();
-        profanityTree.constructTree(profanity_file);
+        profanityTree.constructTree(profanityFile);
 
         /** @private */
         this._profanityTree = profanityTree;
@@ -84,10 +84,10 @@ class ProfanityFilter {
         return false;
     }
     
-    reloadTree(profanity_file) {
+    reloadTree(profanityFile) {
         // Reconstruct profanity tree from the provided filename
         var profanityTree = new VariableTree.nTree();
-        profanityTree.constructTree(profanity_file);
+        profanityTree.constructTree(profanityFile);
 
         /** @private */
         this._profanityTree = profanityTree;

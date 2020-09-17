@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const {themeColor} = require('./configuration/config.json');
 module.exports =  {
-    buildEmbed(reason, message) {
+    buildEmbed(action, reason, message) {
         // Build RichEmbed default values
         var embed = new Discord.MessageEmbed()
         embed.setColor(themeColor).setTimestamp(new Date()).setFooter('Courtesy of Starter Bot™');
@@ -11,10 +11,9 @@ module.exports =  {
 
         // Build embed data based on reason and message
         // TODO: log bans and mutes
-        switch(reason) {
+        switch(action) {
             case "profanity":
                 title = `I deleted a message.`;
-                authorName = `| ${message.author.username} |`
                 fieldOne = [
                     'User:',
                     `${message.author}`,
@@ -30,6 +29,19 @@ module.exports =  {
                     false];
                 break;
             case "mute":
+                title = `I muted somebody.`;
+                fieldOne = [
+                    'Muted member:',
+                    `${message.mentions.users.first()}`,
+                    true];
+                fieldTwo = [
+                    'Reason:',
+                    reason,
+                    true];
+                fieldThree = [
+                    'Enforced by:',
+                    `${message.author}`,
+                    false];
                 break;
             case "ban":
                 break;
