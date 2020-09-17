@@ -10,7 +10,6 @@ module.exports =  {
         var {fieldOne,fieldTwo,fieldThree} = [];
 
         // Build embed data based on reason and message
-        // TODO: log bans and mutes
         switch(action) {
             case "profanity":
                 title = `I deleted a message.`;
@@ -44,6 +43,19 @@ module.exports =  {
                     false];
                 break;
             case "ban":
+                title = `I banned somebody.`;
+                fieldOne = [
+                    'Banned member:',
+                    `${message.mentions.users.first()}`,
+                    true];
+                fieldTwo = [
+                    'Reason:',
+                    reason,
+                    true];
+                fieldThree = [
+                    'Enforced by:',
+                    `${message.author}`,
+                    false];
                 break;
         }
 

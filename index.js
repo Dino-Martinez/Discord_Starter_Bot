@@ -55,6 +55,7 @@ client.on("message", message => {
     // - add configuration for ignored text channels, where the bot will
     // skip the profanity check.
     // - make this function shorter, if possible
+    // - log bans and mutes even if it's done manually? should be possible
 
     // Check if this message was sent by a bot or in a DM
     // if so, ignore it
@@ -142,8 +143,8 @@ client.on("message", message => {
     try {
         // Execute command
         const commandResult = command.execute(message, commandArgs);
-        const commandAction = commandResult.action;
-        const commandReason = commandResult.reason;
+        const commandAction = commandResult["action"];
+        const commandReason = commandResult["reason"];
 
         // If state of bot is updated, then reload config data
         if (commandAction === 'update') {
@@ -152,7 +153,7 @@ client.on("message", message => {
             logChannelID = configData["logChannelID"];
             permissionMap = configData["permissionMap"];
         }
-        
+
         // Log results or reply with message if necessary
         if (commandAction !== "none") {
             log(commandAction, message, commandReason);
