@@ -1,2 +1,5 @@
 environment.json
 node_modules/
+.DS_Store
+.eslintrc.js
+package.json
