@@ -16,7 +16,7 @@ module.exports = {
   execute(message, args) {
     // Retrieve list of commands from our client, and prepare our return data
     const { commands } = message.client;
-    let data = [];
+    const data = [];
 
     if (!args.length) {
       // If no command was specified, display list of commands

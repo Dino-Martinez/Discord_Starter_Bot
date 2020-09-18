@@ -74,7 +74,7 @@ function getConfigData() {
   // Reload data from config file
   const newConfigData = JSON.parse(fs.readFileSync('./configuration/config.json'));
   const newPrefix = newConfigData.prefix;
-  const newLogChannelID = newConfigData.logChannelID;
+  const newLogChannelID = newConfigData.logchannelid;
 
   // Reload data from permission map
   const newPermissionMap = JSON.parse(fs.readFileSync('./configuration/permissions_map.json'));
@@ -187,7 +187,8 @@ client.on('message', (message) => {
   // in our map, then permission is given. If the command is in our map,
   // then check all user roles for permission
   message.member.roles.cache.forEach((role) => {
-    if (permissionMap[command.name][role.name.toLowerCase()] === false) {
+    if (permissionMap[command.name]
+        && permissionMap[command.name][role.name.toLowerCase()] === false) {
       hasPermission = false;
     }
   });
@@ -212,7 +213,7 @@ client.on('message', (message) => {
     }
 
     // Log results or reply with message if necessary
-    if (commandAction !== 'none') {
+    if (commandAction !== 'none' && commandAction !== 'update') {
       log(commandAction, message, commandReason);
     }
   } catch (error) {

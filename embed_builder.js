@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
-const { themeColor } = require('./configuration/config.json');
+const { themecolor } = require('./configuration/config.json');
 
 module.exports = {
   buildEmbed(action, reason, message) {
     // Build RichEmbed default values
-    let embed = new Discord.MessageEmbed();
-    embed.setColor(themeColor).setTimestamp(new Date()).setFooter('Courtesy of Starter Bot™');
+    const embed = new Discord.MessageEmbed();
+    embed.setColor(themecolor).setTimestamp(new Date()).setFooter('Courtesy of Starter Bot™');
     let title = '';
     let { fieldOne, fieldTwo, fieldThree } = [];
 
