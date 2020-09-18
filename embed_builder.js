@@ -57,6 +57,22 @@ module.exports = {
           `${message.author}`,
           false];
         break;
+      case 'manual ban':
+        // Manual ban has no message object, so we cant do mentions.first
+        title = 'Somebody was banned manually';
+        fieldOne = [
+          'Banned member:',
+          `${message.username}`,
+          true];
+        fieldTwo = [
+          'Reason:',
+          reason,
+          true];
+        fieldThree = [
+          'Enforced by:',
+          'Anonymous user',
+          false];
+        break;
       default:
         break;
     }

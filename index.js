@@ -91,6 +91,12 @@ client.on('guildMemberAdd', (member) => {
   member.send('Welcome to the server! You can see a list of my commands by typing !help');
 });
 
+// Log bans if it's done manually, rather than through a command
+client.on('guildBanAdd', (guild, user) => {
+  // Log our ban
+  log('manual ban', user, 'Manual Ban');
+});
+
 // Listen for any message, filter profanity, then check if it is a command
 client.on('message', (message) => {
   // TODOs:
