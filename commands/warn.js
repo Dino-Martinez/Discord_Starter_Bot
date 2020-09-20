@@ -36,6 +36,6 @@ module.exports = {
     // Sends message in channel and return result
     message.channel.send(data, { split: true });
     message.delete();
-    return { action: 'none' };
+    return { action: 'warn' };
   },
 };
