@@ -1,9 +1,4 @@
-/*
-warn with parameters as username, reason all seperated by
-warn doesnt need reason
-*/
-
-/* This module will handle our warn command. */
+/* This module will handle our warn command, and ping the mentioned user with or without a reason */
 
 module.exports = {
   name: 'warn',
