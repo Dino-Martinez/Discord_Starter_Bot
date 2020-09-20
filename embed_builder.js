@@ -42,6 +42,21 @@ module.exports = {
           `${message.author}`,
           false];
         break;
+      case 'warn':
+        title = 'I warned somebody.';
+        fieldOne = [
+          'Warned member:',
+          `${message.mentions.users.first()}`,
+          true];
+        fieldTwo = [
+          'Reason:',
+          reason,
+          true];
+        fieldThree = [
+          'Enforced by:',
+          `${message.author}`,
+          false];
+        break;
       case 'ban':
         title = 'I banned somebody.';
         fieldOne = [
