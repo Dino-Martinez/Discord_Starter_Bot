@@ -1,4 +1,5 @@
-/* This module will handle our configure command.
+/* This module will handle our configure command. This allows moderators and admins to configure
+ * the bot from a command, rather than having to edit config.json themself. 
  */
 const fs = require('fs');
 

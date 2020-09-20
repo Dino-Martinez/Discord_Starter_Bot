@@ -1,5 +1,5 @@
-/* This module will handle our announcement command. This will take whatever message is specified
- * and send it in the channel that is specified, pinging the role specified.
+/* This module will handle our filter command. This allows Moderators
+ * and Admins to update the blacklist for what is and isn't considered profanity.
  */
 
 module.exports = {
@@ -27,4 +27,5 @@ module.exports = {
 
     return { action: 'none' };
   },
-};
+  };
+  
