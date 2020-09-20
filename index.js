@@ -112,7 +112,8 @@ client.on('message', (message) => {
   }
 
   // Check message for profanity
-  if (Filter.filter(message.content)) {
+  if (message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin') === undefined
+    && Filter.filter(message.content)) {
     // Profanity found, delete the message and reply with a warning
     message.author.send(`You sent a message with profanity in ${message.guild.name}`
     + '\nI have deleted the message for you, but please try not to do it again!');
