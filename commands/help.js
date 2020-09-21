@@ -11,7 +11,7 @@ module.exports = {
   aliases: ['commands'],
   requiredArgs: 0,
   maxArgs: 1,
-  usage: '<command name | optional>',
+  usage: '<command name - optional>',
   cooldown: 5,
   execute(message, args) {
     // Retrieve list of commands from our client, and prepare our return data

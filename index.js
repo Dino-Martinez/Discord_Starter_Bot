@@ -18,7 +18,9 @@ const EmbedBuilder = require('./embed_builder.js');
 // Retrieve necessary config data. Note: these can all change during runtime
 // through the use of commands
 let configData = getConfigData();
-let { prefix, logChannelID, permissionMap, blockedMentionsList } = configData;
+let {
+  prefix, logChannelID, permissionMap, blockedMentionsList,
+} = configData;
 
 // Build collection of commands from our commands folder
 // Only accept .js files, and set client command objects based on their content
@@ -118,10 +120,10 @@ client.on('message', (message) => {
   }
 
   // Check if user is moderator or admin
-  const isAdmin = message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin');
+  const isStaff = message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin');
 
-  // Check message for profanity
-  if (isAdmin === undefined && Filter.filter(message.content)) {
+  // Check message for profanity, but don't check messages sent by admins and mods
+  if (isStaff === undefined && Filter.filter(message.content)) {
     // Profanity found, delete the message and reply with a warning
     message.author.send(`You sent a message with profanity in ${message.guild.name}`
     + '\nI have deleted the message for you, but please try not to do it again!');
@@ -131,9 +133,10 @@ client.on('message', (message) => {
   }
 
   // Check if message mentions somebody that is suppressed, if so delete message
+  // Allow admins and mods to mention people even if they are suppressed
   let mentionedASuppressed = false;
   blockedMentionsList.forEach((blockedID) => {
-    if (isAdmin === undefined
+    if (isStaff === undefined
       && message.mentions.members.find((member) => member.id === blockedID)) {
       message.delete();
       mentionedASuppressed = true;

@@ -1,4 +1,9 @@
-/* This module will handle our warn command, and ping the mentioned user with or without a reason */
+/* This module will handle our warn command. This allows a staff member
+ * to warn a user for breaking the rules without enacting a punishment.
+ * It will ping the user in the channel that the message was sent in, and
+ * remove the warn message itself. This allows warnings to be logged in our
+ * log channel.
+ */
 
 module.exports = {
   name: 'warn',
@@ -6,14 +11,13 @@ module.exports = {
   aliases: [],
   requiredArgs: 1,
   maxArgs: 1000000,
-  usage: '<mention | reason(optional)>',
+  usage: '<@username> <reason - optional>',
   cooldown: 5,
   execute(message, args) {
-    // creates a name and mention(list) to be used later
     const mention = message.mentions.members.first();
     const data = [];
 
-    // if the mention exists, proceed
+    // Check if the mention exists, if not then throw an error
     if (mention) {
       data.push(mention);
     } else {
@@ -21,16 +25,20 @@ module.exports = {
       message.channel.send('I did not understand your request. Please use !help warn');
       return { action: 'none' };
     }
-    // removes the mention from the list of args, then creates a string on the rest of the args list
-    args.shift();
-    const reason = args.join(' ');
 
-    data.push('\nYou are being warned');
+    // TODO: Check if mentioned user is admin or mod, if so then dont warn
+
+    // Retrieve the reason from our list of args
+    args.shift();
+    const reason = args.join(' ') || 'No reason given';
+
+    // Build warning message, pinging them and saying they are warned
+    data.push('\nYou are being warned for:');
     data.push(reason);
 
     // Sends message in channel and return result
     message.channel.send(data, { split: true });
     message.delete();
-    return { action: 'warn' };
+    return { action: 'warn', reason };
   },
 };
