@@ -18,7 +18,7 @@ const EmbedBuilder = require('./embed_builder.js');
 // Retrieve necessary config data. Note: these can all change during runtime
 // through the use of commands
 let configData = getConfigData();
-let { prefix, logChannelID, permissionMap } = configData;
+let { prefix, logChannelID, permissionMap, blockedMentionsList } = configData;
 
 // Build collection of commands from our commands folder
 // Only accept .js files, and set client command objects based on their content
@@ -75,6 +75,7 @@ function getConfigData() {
   const newConfigData = JSON.parse(fs.readFileSync('./configuration/config.json'));
   const newPrefix = newConfigData.prefix;
   const newLogChannelID = newConfigData.logchannelid;
+  const newBlockedMentionsList = fs.readFileSync('./configuration/blocked_mentions.txt', 'utf-8');
 
   // Reload data from permission map
   const newPermissionMap = JSON.parse(fs.readFileSync('./configuration/permissions_map.json'));
@@ -82,7 +83,12 @@ function getConfigData() {
   // Reload profanity tree
   Filter.reloadTree(profanityFile);
 
-  return { prefix: newPrefix, logChannelID: newLogChannelID, permissionMap: newPermissionMap };
+  return {
+    prefix: newPrefix,
+    logChannelID: newLogChannelID,
+    permissionMap: newPermissionMap,
+    blockedMentionsList: newBlockedMentionsList.split(','),
+  };
 }
 
 // Greet new members with a DM!
@@ -111,14 +117,29 @@ client.on('message', (message) => {
     return;
   }
 
+  // Check if user is moderator or admin
+  const isAdmin = message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin');
+
   // Check message for profanity
-  if (message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin') === undefined
-    && Filter.filter(message.content)) {
+  if (isAdmin === undefined && Filter.filter(message.content)) {
     // Profanity found, delete the message and reply with a warning
     message.author.send(`You sent a message with profanity in ${message.guild.name}`
     + '\nI have deleted the message for you, but please try not to do it again!');
     log('profanity', message);
     message.delete();
+    return;
+  }
+
+  // Check if message mentions somebody that is suppressed, if so delete message
+  let mentionedASuppressed = false;
+  blockedMentionsList.forEach((blockedID) => {
+    if (isAdmin === undefined
+      && message.mentions.members.find((member) => member.id === blockedID)) {
+      message.delete();
+      mentionedASuppressed = true;
+    }
+  });
+  if (mentionedASuppressed) {
     return;
   }
 
@@ -211,6 +232,7 @@ client.on('message', (message) => {
       prefix = configData.prefix;
       logChannelID = configData.logChannelID;
       permissionMap = configData.permissionMap;
+      blockedMentionsList = configData.blockedMentionsList;
     }
 
     // Log results or reply with message if necessary
