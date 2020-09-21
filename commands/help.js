@@ -1,7 +1,7 @@
 const { prefix } = require('../configuration/config.json');
 
 /* This module will handle our help command. The purpose of this command is to
- * provide a Discord user with a list of our Bot's commands, or with a 
+ * provide a Discord user with a list of our Bot's commands, or with a
  * description of whatever command they specify.
  */
 
