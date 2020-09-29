@@ -81,11 +81,26 @@ module.exports = {
           true];
         fieldTwo = [
           'Reason:',
-          reason,
+          'No reason',
           true];
         fieldThree = [
           'Enforced by:',
           'Anonymous user',
+          false];
+        break;
+      case 'unmute':
+        title = 'I unmuted somebody.';
+        fieldOne = [
+          'Unmuted member:',
+          `${message.mentions.users.first()}`,
+          true];
+        fieldTwo = [
+          'Reason:',
+          reason,
+          true];
+        fieldThree = [
+          'Enforced by:',
+          `${message.author}`,
           false];
         break;
       default:
