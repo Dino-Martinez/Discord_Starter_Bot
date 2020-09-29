@@ -20,7 +20,7 @@ module.exports = {
       target.roles.remove(muteRole.id);
     } else {
     // Return error and break out of code
-      message.channel.send('I did not understand your request. Please use !help ban');
+      message.channel.send('I did not understand your request. Please use !help unmute');
       return { action: 'none' };
     }
 
