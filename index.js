@@ -120,10 +120,11 @@ client.on('message', (message) => {
   }
 
   // Check if user is moderator or admin
-  const isStaff = message.member.roles.cache.find((role) => role.name.toLowerCase() === 'admin');
+  const isStaff = message.member.roles.cache.has((role) => role.name.toLowerCase() === 'admin'
+                  || role.name.toLowerCase() === 'moderator');
 
   // Check message for profanity, but don't check messages sent by admins and mods
-  if (isStaff === undefined && Filter.filter(message.content)) {
+  if (!isStaff && Filter.filter(message.content)) {
     // Profanity found, delete the message and reply with a warning
     message.author.send(`You sent a message with profanity in ${message.guild.name}`
     + '\nI have deleted the message for you, but please try not to do it again!');
@@ -136,7 +137,7 @@ client.on('message', (message) => {
   // Allow admins and mods to mention people even if they are suppressed
   let mentionedASuppressed = false;
   blockedMentionsList.forEach((blockedID) => {
-    if (isStaff === undefined
+    if (!isStaff
       && message.mentions.members.find((member) => member.id === blockedID)) {
       message.delete();
       mentionedASuppressed = true;

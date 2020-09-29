@@ -11,7 +11,8 @@ module.exports = {
   usage: '<@username>',
   cooldown: 5,
   execute(message, args) {
-    const target = message.mentions.members.first();
+    const target = message.mentions.members.first()
+                  || message.guild.members.cache.find((member) => member.username === args[0]);
 
     // Check if the mention exists, if not then throw error message
     if (target) {
